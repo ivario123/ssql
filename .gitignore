@@ -1,1 +1,7 @@
-*.cfg*
+*.cfg
+cfg/*
+secrets/*
+__pycache__/*
+*egg*
+cfg/config.cfg
+secrets/keys.cfg
