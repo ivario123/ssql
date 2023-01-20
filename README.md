@@ -1,4 +1,3 @@
-
 # SSql
 
 A simple SQL wrapper for python that allows you to connect to a database using ssh tunneling.
@@ -27,7 +26,7 @@ ssh_cfg = {
 mysql_cfg = {
     "host": "localhost",
     "port": 3306,
-    "user": "user
+    "user": "user",
     "password": "password",
 }
 
