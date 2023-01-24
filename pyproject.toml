@@ -1,0 +1,20 @@
+[project]
+name = "ssql"
+version = "0.0.1"
+authors = [{ name = "Ivar Jönsson", email = "ivajns-9@student.ltu.se" }]
+readme = "README.md"
+description = "A wrapper for sql connections through ssh tunnels"
+
+[tool.poetry]
+name = "ssql"
+version = "0.0.1"
+description = "A wrapper for sql connections through ssh tunnels"
+authors = ["Ivar Jönsson <ivajns-9@student.ltu.se>"]
+readme = "README.md"
+
+
+[tool.poetry.dependencies]
+python = "^3.8"
+sshtunnel = "^0.0.0"
+mysql = "^0.0.0"
+mysql-connector-python = "^0.0.0"
