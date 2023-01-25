@@ -45,6 +45,7 @@ def connect(tunnel: sshtunnel.SSHTunnelForwarder, mysql_cfg):
         password=mysql_cfg["pass"],
         host=mysql_cfg["host"],
         port=tunnel.local_bind_port,
+        database=mysql_cfg["database"]
     )
 
 
@@ -67,6 +68,7 @@ class SSql:
         - user: The mysql user name
         - pass: The mysql password
         - port: The mysql port
+        - database: The mysql database to connect to
     """
 
     def __init__(self, ssh_cfg, mysql_cfg):
