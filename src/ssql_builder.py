@@ -45,9 +45,6 @@ class SSqlBuilder:
             def wrapper(*args, **kwargs):
                 fields = inspect.getfullargspec(func).args[:-3]
                 sql_string = f"SELECT {','.join(select_fields)} FROM {table_name} WHERE {','.join([f'{field} = %s' for field in fields])}; "
-
-                print(
-                    f"function arguments : {args}, sql query: {sql_string}, connection: {ssql},cursor: {ssql}")
                 with ssql as (conn, curs):
                     ret = func(*args, sql_query=sql_string,
                                connection=conn, cursor=curs, **kwargs)
