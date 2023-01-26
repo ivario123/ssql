@@ -41,3 +41,20 @@ with sql as (conn, cursor):
 # Close connection
 ssql.close()
 ```
+
+## Decorator
+
+```python
+# This assumes a corectly configured ssql object
+from ssql_builder import SSqlBuilder as ssql_builder
+
+@ssql_builder.select(ssql, table_name="PRODUCT", select_fields=["ProductName", "ProductDescription", "Price", "Inventory", "Image", "SN"])
+def get_item_by_name(ProductName, sql_query=None, connection=None, cursor=None):
+    """
+    Get an item by name
+    """
+    cursor.execute(
+        sql_query, (ProductName,))
+    result = cursor.fetchall()
+    print(result)
+```
