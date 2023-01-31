@@ -80,6 +80,7 @@ class SSql:
         self.tunnel.start()
         # Connect to mysql
         self.conn = connect(self.tunnel, mysql_cfg)
+        self.conn.autocommit = False
 
     def commit(self):
         """
@@ -100,11 +101,13 @@ class SSql:
         """
         Closes the sql cursor
         """
-
+        # Rollback if an exception was raised
         if exc:
             self.conn.rollback()
+        # Commit if no exception was raised
         else:
             self.conn.commit()
+        # Close the cursor
         self.cursor.close()
 
         self.cursor = None
