@@ -8,6 +8,8 @@ Wraps the mysql.connector and sshtunnel libraries to provide a simple interface 
 import sshtunnel
 import mysql.connector
 from configparser import ConfigParser
+from time import sleep
+from threading import Lock
 
 
 # Set up mysql parameters
@@ -75,6 +77,7 @@ class SSql:
         """
         Creates a new SSql object
         """
+        self.mutex = Lock()
         # Set up ssh tunnel
         self.tunnel = get_tunnel(ssh_cfg, mysql_cfg)
         self.tunnel.start()
@@ -86,14 +89,13 @@ class SSql:
         """
         Commits the current transaction
         """
-
         self.conn.commit()
 
     def __enter__(self):
         """
         Returns a sql cursor
         """
-
+        self.mutex.acquire()
         self.cursor = self.conn.cursor()
         return (self.conn, self.cursor)
 
@@ -109,8 +111,13 @@ class SSql:
             self.conn.commit()
         # Close the cursor
         self.cursor.close()
-
         self.cursor = None
+        self.mutex.release()
+
+    def restart(self):
+        self.conn.disconnect()
+        sleep(2)
+        self.conn.connect()
 
     def stop(self):
         """
