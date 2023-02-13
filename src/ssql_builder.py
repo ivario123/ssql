@@ -2,7 +2,6 @@ from functools import wraps
 import inspect
 from typing import List
 from ssql import SSql
-import mysql
 from mysql.connector.errors import OperationalError
 
 

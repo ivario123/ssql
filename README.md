@@ -5,7 +5,7 @@ A simple SQL wrapper for python that allows you to connect to a database using s
 ## Installation
 
 ```bash
-pip install GIT+https://vesuvio-git.neteq.ltu.se/ivajns-9/ssql
+pip install GIT+https://github.com/ivario123/ssql
 ```
 # Usage
 
