@@ -13,19 +13,3 @@ classifiers = [
 [project.urls]
 source = "https://github.com/ivario123/ssql"
 
-[tool.poetry]
-authors = ["Ivar Jönsson <ivajns-9@student.ltu.se>"]
-description = "Sql wrapper for handeling sql queries through ssh tunnels"
-name = "ssql"
-version = "0.2.0"
-readme = "README.md"
-
-[build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
-
-[tool.poetry.dependencies]
-python = ">3.7"
-wheel = "*"
-sshtunnel = "0.4.0"
-mysql-connector-python = "8.0.32"
