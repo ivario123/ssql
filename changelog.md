@@ -1,5 +1,9 @@
 # Changelog for ssql
 
+## 0.2.1
+
+Fix oversight in 0.2.0 and add explicit transactions.
+
 ## 0.2.0
 
 Fix oversight in 0.1.0 and add mutex allowing for usage in global scope.
