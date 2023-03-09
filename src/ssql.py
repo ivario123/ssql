@@ -19,22 +19,25 @@ def get_tunnel(ssh_cfg, mysql_cfg) -> sshtunnel.SSHTunnelForwarder:
     """
     if "key_file" in ssh_cfg and "pass" in ssh_cfg:
         raise ValueError(
-            "The ssh_cfg dictionary can't contain both a key_file and a pass")
+            "The ssh_cfg dictionary can't contain both a key_file and a pass"
+        )
 
     if "key_file" in ssh_cfg:
         return sshtunnel.SSHTunnelForwarder(
             (ssh_cfg["host"], ssh_cfg["port"]),
             ssh_username=ssh_cfg["user"],
             ssh_pkey=ssh_cfg["key_file"],
-            ssh_private_key_password=ssh_cfg["key_pass"] if "key_pass" in ssh_cfg else None,
-            remote_bind_address=(mysql_cfg["host"], mysql_cfg["port"])
+            ssh_private_key_password=ssh_cfg["key_pass"]
+            if "key_pass" in ssh_cfg
+            else None,
+            remote_bind_address=(mysql_cfg["host"], mysql_cfg["port"]),
         )
 
     return sshtunnel.SSHTunnelForwarder(
         (ssh_cfg["host"], ssh_cfg["port"]),
         ssh_username=ssh_cfg["user"],
         ssh_password=ssh_cfg["pass"],
-        remote_bind_address=(mysql_cfg["host"], mysql_cfg["port"])
+        remote_bind_address=(mysql_cfg["host"], mysql_cfg["port"]),
     )
 
 
@@ -47,7 +50,7 @@ def connect(tunnel: sshtunnel.SSHTunnelForwarder, mysql_cfg):
         password=mysql_cfg["pass"],
         host=mysql_cfg["host"],
         port=tunnel.local_bind_port,
-        database=mysql_cfg["database"]
+        database=mysql_cfg["database"],
     )
 
 
@@ -97,6 +100,7 @@ class SSql:
         """
         self.mutex.acquire()
         self.cursor = self.conn.cursor()
+        self.conn.start_transaction(isolation_level="SERIALIZABLE")
         return (self.conn, self.cursor)
 
     def __exit__(self, exc, *_):
@@ -143,17 +147,17 @@ if __name__ == "__main__":
         "host": cfg["mysql"]["ssh_host"],
         "user": secrets["ssh"]["user_name"],
         "pass": secrets["ssh"]["password"],
-        "port": int(cfg["mysql"]["ssh_port"])
+        "port": int(cfg["mysql"]["ssh_port"]),
     }
 
     mysql_cfg = {
         "host": cfg["mysql"]["mysql_host"],
         "user": secrets["mysql"]["user_name"],
         "pass": secrets["mysql"]["password"],
-        "port": int(cfg["mysql"]["mysql_port"])
+        "port": int(cfg["mysql"]["mysql_port"]),
     }
     ssql = SSql(ssh_cfg, mysql_cfg)
     with ssql as (conn, curs):
-        curs.execute('SHOW DATABASES')
+        curs.execute("SHOW DATABASES")
         print(curs.fetchall())
     ssql.stop()
